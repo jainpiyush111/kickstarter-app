@@ -13,4 +13,4 @@ SECRET_KEY = 'my precious'
 # Connect to the database
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.db')
 
-SQLALCHEMY_DATABASE_URI = 'postgres://bdankiya:DVIUUlkl1bKNKZhG4SYwNIA0ZEDiXnHq@elmer.db.elephantsql.com:5432/bdankiya'
+SQLALCHEMY_DATABASE_URI = 'postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh'

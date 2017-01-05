@@ -2,10 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Text, DateTime
-from app import db
+
 
 # engine = create_engine('sqlite:///database.db', echo=True)
-engine = create_engine('postgres://bdankiya:DVIUUlkl1bKNKZhG4SYwNIA0ZEDiXnHq@elmer.db.elephantsql.com:5432/bdankiya', echo=True)
+engine = create_engine('postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh', echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -19,24 +19,29 @@ class Pledges(Base):
     __tablename__ = 'pledges'
 
     id = Column(Integer, primary_key=True, unique=True)
-    project_id = Column(Integer,ForeignKey('projects.id'),nullable=False)
-    user_id = Column(Integer,ForeignKey('users.id'),nullable=False)
-    amount=Column(Integer)
+    project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    amount = Column(Integer)
     time_created = Column(DateTime)
 
 
-class Users(Base):
+class User(Base):
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, unique=True)
-    username = Column(String(30),primary_key=True)
+    username = Column(String(30), primary_key=True)
     email = Column(String(30), primary_key=True)
     password = Column(String(15))
     authenticated = Column(Boolean, default=False)
-    projects = relationship('Projects',backref="creator")
+    projects = relationship('Projects', backref="creator")
     #pledges = relationship('Pledges',backref="pledger", foreign_key="Pledges.user_id")
-    pledges = relationship('Pledges',backref="pledger", primaryjoin= id == Pledges.user_id)
+    pledges = relationship('Pledges', backref="pledger", primaryjoin= id == Pledges.user_id)
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = password
 
     def is_active(self):
         """True, as all users are active."""
@@ -48,18 +53,19 @@ class Users(Base):
 
     def is_authenticated(self):
         """Return True if the user is authenticated."""
-        return self.authenticated
+        return True
 
     def is_anonymous(self):
         """False, as anonymous users aren't supported."""
         return False
 
+
 class Projects(Base):
 
     __tablename__ = 'projects'
 
-    id = Column(Integer, primary_key=True,unique=True)
-    user_id = Column(Integer,ForeignKey('users.id'),nullable=False)
+    id = Column(Integer, primary_key=True, unique=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     name = Column(String(100))
     short_description = Column(Text)
     long_description = Column(Text)
@@ -67,7 +73,7 @@ class Projects(Base):
     time_start = Column(DateTime)
     time_end = Column(DateTime)
     time_created = Column(DateTime)
-    pledges = relationship('Pledges',backref="project", primaryjoin= id == Pledges.project_id)
+    pledges = relationship('Pledges', backref="project", primaryjoin= id == Pledges.project_id)
 
 
 
