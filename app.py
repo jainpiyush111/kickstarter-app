@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
@@ -9,17 +9,20 @@ from models import User
 from flask.ext.login import *
 import flask_login_auth
 
+
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
-login_manager = flask_login.LoginManager()
+login_manager = LoginManager()
 login_manager.init_app(app)
+
+login_manager.login_view = 'login'
 
 
 @login_manager.user_loader
-def user_loader(user_id):
-    return User.query.get(user_id)
+def load_user(username):
+    return User.query.get(username)
 
 
 # Automatically tear down SQLAlchemy.
@@ -58,21 +61,21 @@ def about():
 
 @app.route('/landing')
 def landing():
-    return render_template('pages/placeholder.home.html')
+    session.clear()
+    return redirect(url_for('home'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
-    username = form.name.data
-    password = form.password.data
-    print username, password
     if request.method == 'POST':
+        username = form.name.data
+        password = form.password.data
         value = flask_login_auth.authenticate(username, password)
         if (value == 1):
             print "login Succesfully"
-            login_user(username, remember=True)
-            return redirect(url_for("landing"))
+            session['name'] = username
+            return render_template('pages/placeholder.home.html', session=session)
     print "false"
     return render_template('forms/login.html', form=form)
 

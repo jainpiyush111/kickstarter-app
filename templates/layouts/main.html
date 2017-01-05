@@ -54,13 +54,17 @@
           <ul class="nav navbar-nav">
             <li {% if request.endpoint == 'home' %} class="active" {% endif %}><a href="{{ url_for('home') }}">Home</a></li>
             <li {% if request.endpoint == 'about' %} class="active" {% endif %}><a href="{{ url_for('about') }}">About</a></li>
-            <li> {% if current_user.is_authenticated %}
-  Hi {{ current_user.name }}!
-{% endif %}</li>
+            <li> <a>{% if session['name'] %}
+  Hi {{ session['name'] }}!
+{% endif %}</a></li>
           </ul>
-          <ul class="nav navbar-nav pull-right">
-            <li><a href="{{ url_for('register') }}">Signup</a></li>
+          <ul class="nav navbar-nav pull-right">{% if session['name'] %}
+          <li><a href="{{ url_for('landing') }}">Logout</a></li> 
+             
+{% else %} 
+             <li><a href="{{ url_for('register') }}">Signup</a></li>  
             <li><a href="{{ url_for('login') }}">Login</a></li>
+{% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
