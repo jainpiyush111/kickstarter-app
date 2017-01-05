@@ -8,6 +8,7 @@ import flask_login
 from models import User
 from flask.ext.login import *
 import flask_login_auth
+from flask.ext.login import login_user , logout_user , current_user , login_required
 
 
 app = Flask(__name__)
@@ -59,11 +60,17 @@ def about():
     return render_template('pages/placeholder.about.html')
 
 
-@app.route('/landing')
-def landing():
-    session.clear()
-    return redirect(url_for('home'))
-
+@app.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    form = CreateProject(request.form)
+    if request.method == 'POST':
+       project = Projects(form.name.data, form.short_desc.data,
+                   form.long_desc.data,form.goal_amount.data,form.end_date.data)
+       db.session.add(project)
+       db.session.commit()
+       return redirect(url_for('/'))
+    return render_template('pages/placeholder.create.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

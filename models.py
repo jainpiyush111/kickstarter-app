@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Text, DateT
 
 # engine = create_engine('sqlite:///database.db', echo=True)
 engine = create_engine('postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh', echo=True)
+
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -70,10 +71,17 @@ class Projects(Base):
     short_description = Column(Text)
     long_description = Column(Text)
     goal_amount = Column(Integer)
-    time_start = Column(DateTime)
     time_end = Column(DateTime)
-    time_created = Column(DateTime)
-    pledges = relationship('Pledges', backref="project", primaryjoin= id == Pledges.project_id)
+    time_created = Column(DateTime, default=datetime.datetime.utcnow)
+    pledges = relationship('Pledges',backref="project", primaryjoin= id == Pledges.project_id)
+
+    def __init__(self, name, short_desc,long_desc,goal_amount,time_end):
+        self.name = name
+        self.short_description = short_desc
+        self.long_description = long_desc
+        self.goal_amount = goal_amount
+        self.time_end = time_end
+
 
 
 
