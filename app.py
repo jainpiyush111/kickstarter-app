@@ -49,7 +49,9 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    project = flask_login_auth.show_project(session['usersid'])
+    session['project'] = project
+    return render_template('pages/placeholder.home.html', session=session)
 
 
 @app.route('/about')
@@ -59,7 +61,10 @@ def about():
 
 @app.route('/pledge', methods=['POST'])
 def pledge():
-    return render_template('pages/placeholder.about.html')
+    pledge = request.form['submit']
+    pledge_data = flask_login_auth.pledge(pledge)
+    print pledge_data
+    return render_template('pages/placeholder.about.html', i=pledge)
 
 
 @app.route('/logout')
@@ -81,6 +86,7 @@ def login():
             session['usersid'] = get_data[0][0]
             project = flask_login_auth.show_project(session['usersid'])
             session['project'] = project
+            print session['project']
             return render_template('pages/placeholder.home.html', session=session)
     print "false"
     return render_template('forms/login.html', form=form)

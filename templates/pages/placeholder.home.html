@@ -9,24 +9,20 @@ Project
 
 <div><form action="pledge" method= POST >
 	<table border="0px" style="border-style:outset; border-width:1px; padding-left:4px; padding-right:4px; padding-top:3px; padding-bottom:3px" bgcolor="#33CCFF" width="921" cell>
-    
+    <thead>
+    <tr>
+    <th></th>
+    </tr>
+    </thead>
+    <tbody>
  		<tr style="text-align: center;font-size: 14px;">
  		{% for n in session['project'] %}
     		<td><strong>{{n[2]}}</strong></td> 
     	{% endfor %}
  		</tr>
- 		<tr style="text-align: center;font-size: 14px;">
- 		{% for n in session['project'] %}
-    		<td><strong>{{n[5]}}</strong></td> 
-    	{% endfor %}
- 		</tr>
- 		<tr style="text-align: center;font-size: 14px;">
- 		{% for n in session['project'] %} 
-    		<td><Strong><a><input type= submit value="{{n[0]}}" placeholder="PAY" style="width: 100%" ></a></Strong></td>
-    	{% endfor %}
- 		</tr>	
+ 		
 
-
+</tbody>
     </table>
     </form>
 </div>
