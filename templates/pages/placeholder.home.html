@@ -5,23 +5,31 @@
 <div class="page-header">
   <h1>KickStarter</h1>
 </div>{% if session['usersid']%}
-Project  
+<h1>PROJECTS </h1> 
 
 <div><form action="pledge" method= POST >
-	<table border="0px" style="border-style:outset; border-width:1px; padding-left:4px; padding-right:4px; padding-top:3px; padding-bottom:3px" bgcolor="#33CCFF" width="921" cell>
+	<table border="1px" style="border-style:outset; border-width:1px; padding-left:4px; padding-right:4px; padding-top:7px; padding-bottom:7px" width="921" cell>
     <thead>
-    <tr>
-    <th></th>
+    <tr style="border-style:outset; border-width:1px; back" >
+    <th>Project Name</th>
+    <th>Short Description</th>
+    <th>Long Description</th>
+    <th>Pledge Amount</th>
+    <th>Pledge</th>
     </tr>
     </thead>
     <tbody>
- 		<tr style="text-align: center;font-size: 14px;">
- 		{% for n in session['project'] %}
-    		<td><strong>{{n[2]}}</strong></td> 
-    	{% endfor %}
- 		</tr>
+    {% for n in session['project'] %}
+ 		<tr style="font-size: 14px;">
  		
-
+    		<td><strong>{{n[2]}}</strong></td> 
+    		<td><strong>{{n[3]}}</strong></td>
+    		<td><strong>{{n[4]}}</strong></td>
+    		<td><strong>{{n[5]}}</strong></td>   
+    		<td><Strong><a><button name="submit" value="{{n[0]}}" type="submit" style="width: 100%">Pledge</button></a></Strong></td>
+    	
+ 		</tr>	
+{% endfor %}
 </tbody>
     </table>
     </form>

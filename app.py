@@ -49,9 +49,7 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    project = flask_login_auth.show_project(session['usersid'])
-    session['project'] = project
-    return render_template('pages/placeholder.home.html', session=session)
+    return render_template('pages/placeholder.home.html',)
 
 
 @app.route('/about')
@@ -100,8 +98,15 @@ def create():
                            form.long_desc.data, form.goal_amount.data, form.time_end.data)
         db.session.add(project)
         db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
     return render_template('pages/placeholder.create.html', form=form)
+
+
+@app.route('/')
+def index():
+    project = flask_login_auth.show_project(session['usersid'])
+    session['project'] = project
+    return render_template('pages/placeholder.home.html', session=session)
 
 
 @app.route('/register', methods=['GET', 'POST'])
