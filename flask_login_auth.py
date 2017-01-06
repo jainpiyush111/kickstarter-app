@@ -29,11 +29,33 @@ def authenticate(username, password):
 
 
 def get_data(username, password):
-   connection = get_connection()
-   cursor = connection.cursor()
-   query = """SELECT * from "public"."user" where username='%s' and password='%s'"""
-   query = query % (username, password)
-   cursor.execute(query)
-   rows = cursor.fetchall()
-   connection.close()
-   return rows
+    connection = get_connection()
+    cursor = connection.cursor()
+    query = """SELECT * from "public"."user" where username='%s' and password='%s'"""
+    query = query % (username, password)
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    connection.close()
+    return rows
+
+
+def show_project(userid):
+    connection = get_connection()
+    cursor = connection.cursor()
+    query = """SELECT * from "public"."projects" where "user_id"='%s'"""
+    query = query % (userid)
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    connection.close()
+    return rows
+
+
+def pledge(pledge):
+    connection = get_connection()
+    cursor = connection.cursor()
+    query = """SELECT * from "public"."projects" where id='%s'"""
+    query = query % (pledge)
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    connection.close()
+    return rows

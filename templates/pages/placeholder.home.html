@@ -3,8 +3,40 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>Sticky footer with fixed navbar</h1>
-</div>
-<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p>
+  <h1>KickStarter</h1>
+</div>{% if session['usersid']%}
+Project  
 
+<div><form action="pledge" method= POST >
+	<table border="0px" style="border-style:outset; border-width:1px; padding-left:4px; padding-right:4px; padding-top:3px; padding-bottom:3px" bgcolor="#33CCFF" width="921" cell>
+    
+ 		<tr style="text-align: center;font-size: 14px;">
+ 		{% for n in session['project'] %}
+    		<td><strong>{{n[2]}}</strong></td> 
+    	{% endfor %}
+ 		</tr>
+ 		<tr style="text-align: center;font-size: 14px;">
+ 		{% for n in session['project'] %}
+    		<td><strong>{{n[5]}}</strong></td> 
+    	{% endfor %}
+ 		</tr>
+ 		<tr style="text-align: center;font-size: 14px;">
+ 		{% for n in session['project'] %} 
+    		<td><Strong><a><input type= submit value="{{n[0]}}" placeholder="PAY" style="width: 100%" ></a></Strong></td>
+    	{% endfor %}
+ 		</tr>	
+
+
+    </table>
+    </form>
+</div>
+
+
+
+
+
+
+{% else %}
+<p class="lead">Login and Create a Project, Share your idea and get <code>PLEDGE</code> with <code>KICKSTARTER</code> </p>
+{% endif %}
 {% endblock %}

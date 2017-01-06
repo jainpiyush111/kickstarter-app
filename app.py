@@ -3,11 +3,9 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
-import flask_login
 from models import User, Projects
 from flask.ext.login import *
 import flask_login_auth
-from flask.ext.login import login_user , logout_user , current_user , login_required
 
 
 app = Flask(__name__)
@@ -58,10 +56,18 @@ def home():
 def about():
     return render_template('pages/placeholder.about.html')
 
+
+@app.route('/pledge', methods=['POST'])
+def pledge():
+    print request.form['submit']
+    return render_template('pages/placeholder.about.html')
+
+
 @app.route('/logout')
 def logout():
-   session.clear()
-   return redirect(url_for('home'))
+    session.clear()
+    return redirect(url_for('home'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,9 +77,11 @@ def login():
         password = form.password.data
         value = flask_login_auth.authenticate(username, password)
         if (value == 1):
-            get_data = flask_login_auth.get_data(username,password)
+            get_data = flask_login_auth.get_data(username, password)
             session['name'] = username
-            session['usersid']= get_data[0][0]
+            session['usersid'] = get_data[0][0]
+            project = flask_login_auth.show_project(session['usersid'])
+            session['project'] = project
             return render_template('pages/placeholder.home.html', session=session)
     print "false"
     return render_template('forms/login.html', form=form)
@@ -83,11 +91,11 @@ def login():
 def create():
     form = CreateProject(request.form)
     if request.method == 'POST':
-       project = Projects(session['usersid'],form.name.data, form.short_desc.data,
-                   form.long_desc.data,form.goal_amount.data,form.time_end.data)
-       db.session.add(project)
-       db.session.commit()
-       return redirect(url_for('home'))
+        project = Projects(session['usersid'], form.name.data, form.short_desc.data,
+                           form.long_desc.data, form.goal_amount.data, form.time_end.data)
+        db.session.add(project)
+        db.session.commit()
+        return redirect(url_for('home'))
     return render_template('pages/placeholder.create.html', form=form)
 
 
