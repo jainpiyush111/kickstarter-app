@@ -35,7 +35,7 @@ class CreateProject(Form):
     goal_amount = IntegerField(
         'Funding Goal', validators=[DataRequired(), Length(min=6, max=500)]
     )
-    end_date = DateField(
+    time_end = DateField(
         'Funding End Date', validators=[DataRequired(), Length(min=6, max=500)]
     )
     

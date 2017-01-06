@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Text, DateTime
+import datetime
 
 
 # engine = create_engine('sqlite:///database.db', echo=True)
@@ -23,7 +24,7 @@ class Pledges(Base):
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     amount = Column(Integer)
-    time_created = Column(DateTime)
+    time_created = Column(DateTime, default=datetime.datetime.utcnow)
 
 
 class User(Base):
@@ -71,11 +72,12 @@ class Projects(Base):
     short_description = Column(Text)
     long_description = Column(Text)
     goal_amount = Column(Integer)
-    time_end = Column(DateTime)
-    time_created = Column(DateTime, default=datetime.datetime.utcnow)
+    time_end = Column(Text)
+    time_created = Column(DateTime,  default=datetime.datetime.utcnow)
     pledges = relationship('Pledges',backref="project", primaryjoin= id == Pledges.project_id)
 
-    def __init__(self, name, short_desc,long_desc,goal_amount,time_end):
+    def __init__(self, userid, name, short_desc,long_desc,goal_amount,time_end):
+        self.user_id = userid
         self.name = name
         self.short_description = short_desc
         self.long_description = long_desc
