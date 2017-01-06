@@ -50,22 +50,11 @@ def login_required(test):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    form = Search(request.form)
-    if request.method == 'POST':
-       print form.search.data
-       return redirect(url_for('home'))
-    return render_template('pages/placeholder.home.html',form=form)
+    return render_template('pages/placeholder.home.html')
 
 @app.route('/about')
 def about():
     return render_template('pages/placeholder.about.html')
-
-
-@app.route('/pledge', methods=['POST'])
-def pledge():
-    pledge = request.form['submit']
-    pledge_data = flask_login_auth.pledge(pledge)
-    return render_template('pages/placeholder.about.html', i=pledge)
 
 
 @app.route('/logout')
@@ -109,16 +98,23 @@ def index():
     session['project'] = project
     return render_template('pages/placeholder.home.html', session=session)
 
+@app.route('/showPledge', methods=['GET', 'POST'])
+def showPledge():
+    if request.method == 'POST':
+        projectId = request.form['submit']
+        session['projectId'] = projectId
+        return redirect(url_for('newPledge'))
+
 
 @app.route('/newPledge', methods=['GET', 'POST'])
 def newPledge():
     form = NewPledge(request.form)
     if request.method == 'POST':
-       pledge = Pledges(session['usersid'],form.amount.data)
+       pledge = Pledges(session['projectId'],session['usersid'],form.amount.data)
        db.session.add(pledge)
        db.session.commit()
        return redirect(url_for('home'))
-    return render_template('pages/placeholder.pledge.html', form=form)
+    return render_template('pages/placeholder.pledge.html', form=form, session=session)
 
 
 @app.route('/register', methods=['GET', 'POST'])

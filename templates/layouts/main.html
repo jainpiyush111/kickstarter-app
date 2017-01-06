@@ -59,12 +59,14 @@
 
           </ul>
           <ul class="nav navbar-nav pull-right">{% if session['name'] %}
-          <li><a>
+          
+            <li> <a>
             <form method="post" class="form">
-            {{ form.search(class_ = 'form-control first-input', placeholder = form.search.label.text, required = true, autofocus = true) }} 
-            <input type="submit" value="Search" class="btn btn-primary">
+            <input type="text" name="search" placeholder="search..."/> <input type="submit" name= "Search"/>
             </form>
             </a></li>
+
+
           <li> <a>
             Hi {{ session['name'] }}!
             </a></li>

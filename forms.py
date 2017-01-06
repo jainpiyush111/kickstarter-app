@@ -39,11 +39,6 @@ class CreateProject(Form):
         'Funding End Date', validators=[DataRequired(), Length(min=6, max=500)]
     )
 
-class Search(Form):
-    search = TextField(
-        'Search', validators=[DataRequired(), Length(min=6, max=25)]
-    )
-
 
 class NewPledge(Form):
     

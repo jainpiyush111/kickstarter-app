@@ -7,10 +7,11 @@
 </div>{% if session['usersid']%}
 <h1>PROJECTS </h1> 
 
-<div><form action="pledge" method= POST >
+<div><form action="showPledge" method= POST >
 	<table border="1px" style="border-style:outset; border-width:1px; padding-left:4px; padding-right:4px; padding-top:7px; padding-bottom:7px" width="921" cell>
     <thead>
     <tr style="border-style:outset; border-width:1px; font-size: 24px;" >
+    <th>Project Id</th>
     <th>Project Name</th>
     <th>Short Description</th>
     <th>Long Description</th>
@@ -21,12 +22,12 @@
     <tbody>
     {% for n in session['project'] %}
  		<tr style="font-size: 20px;">
- 		
+ 			<td><strong>{{n[0]}}</strong></td> 
     		<td><strong>{{n[2]}}</strong></td> 
     		<td>{{n[3]}}</td>
     		<td>{{n[4]}}</td>
     		<td>{{n[5]}}</td>   
-    		<td><a><button name="submit" value="{{n[0]}}" type="submit" style="width: 100%">Pledge</button></a></td>
+    		<td><a><button name="submit" value="{{ n[0] }}" type="submit" style="width: 100%">Pledge</button></a></td>
     	
  		</tr>	
 {% endfor %}

@@ -14,6 +14,6 @@ SECRET_KEY = 'my precious'
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.db')
 
 
-# SQLALCHEMY_DATABASE_URI = 'postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh'
-SQLALCHEMY_DATABASE_URI = 'postgresql://fulfil:@localhost:5432/kickstarterapp'
+SQLALCHEMY_DATABASE_URI = 'postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh'
+# SQLALCHEMY_DATABASE_URI = 'postgresql://fulfil:@localhost:5432/kickstarterapp'
 
