@@ -59,7 +59,6 @@ def about():
 
 @app.route('/pledge', methods=['POST'])
 def pledge():
-    print request.form['submit']
     return render_template('pages/placeholder.about.html')
 
 
