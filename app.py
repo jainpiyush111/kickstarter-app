@@ -61,7 +61,6 @@ def about():
 def pledge():
     pledge = request.form['submit']
     pledge_data = flask_login_auth.pledge(pledge)
-    print pledge_data
     return render_template('pages/placeholder.about.html', i=pledge)
 
 
@@ -84,9 +83,7 @@ def login():
             session['usersid'] = get_data[0][0]
             project = flask_login_auth.show_project(session['usersid'])
             session['project'] = project
-            print session['project']
             return render_template('pages/placeholder.home.html', session=session)
-    print "false"
     return render_template('forms/login.html', form=form)
 
 
@@ -102,7 +99,7 @@ def create():
     return render_template('pages/placeholder.create.html', form=form)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     project = flask_login_auth.show_project(session['usersid'])
     session['project'] = project
@@ -112,13 +109,11 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
-    print form
     if request.method == 'POST':
         user = User(form.name.data, form.email.data,
                     form.password.data)
         db.session.add(user)
         db.session.commit()
-        print 'Thanks for registering'
         return redirect(url_for('login'))
     return render_template('forms/register.html', form=form)
 
