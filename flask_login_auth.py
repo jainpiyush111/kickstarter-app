@@ -26,3 +26,14 @@ def authenticate(username, password):
     except Exception as error:
         return error
     connection.close()
+
+
+def get_data(username, password):
+   connection = get_connection()
+   cursor = connection.cursor()
+   query = """SELECT * from "public"."user" where username='%s' and password='%s'"""
+   query = query % (username, password)
+   cursor.execute(query)
+   rows = cursor.fetchall()
+   connection.close()
+   return rows

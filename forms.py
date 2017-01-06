@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, TextAreaField, IntegerField, DateField
 from wtforms.validators import DataRequired, EqualTo, Length
 
 # Set your classes here.
@@ -21,6 +21,24 @@ class RegisterForm(Form):
          EqualTo('password', message='Passwords must match')]
     )
 
+
+class CreateProject(Form):
+    name = TextField(
+        'Project Name', validators=[DataRequired(), Length(min=6, max=25)]
+    )
+    short_desc = TextField(
+        'Short Description', validators=[DataRequired(), Length(min=6, max=40)]
+    )
+    long_desc = TextAreaField(
+        'Long Description', validators=[DataRequired(), Length(min=6, max=500)]
+    )
+    goal_amount = IntegerField(
+        'Funding Goal', validators=[DataRequired(), Length(min=6, max=500)]
+    )
+    time_end = DateField(
+        'Funding End Date', validators=[DataRequired(), Length(min=6, max=500)]
+    )
+    
 
 class LoginForm(Form):
     name = TextField('Username', [DataRequired()])
