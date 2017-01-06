@@ -3,7 +3,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
-from models import User, Projects
+import flask_login
+from models import User, Projects, Pledges
 from flask.ext.login import *
 import flask_login_auth
 
@@ -47,10 +48,13 @@ def login_required(test):
 #----------------------------------------------------------------------------#
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('pages/placeholder.home.html',)
-
+    form = Search(request.form)
+    if request.method == 'POST':
+       print form.search.data
+       return redirect(url_for('home'))
+    return render_template('pages/placeholder.home.html',form=form)
 
 @app.route('/about')
 def about():
@@ -104,6 +108,17 @@ def index():
     project = flask_login_auth.show_project(session['usersid'])
     session['project'] = project
     return render_template('pages/placeholder.home.html', session=session)
+
+
+@app.route('/newPledge', methods=['GET', 'POST'])
+def newPledge():
+    form = NewPledge(request.form)
+    if request.method == 'POST':
+       pledge = Pledges(session['usersid'],form.amount.data)
+       db.session.add(pledge)
+       db.session.commit()
+       return redirect(url_for('home'))
+    return render_template('pages/placeholder.pledge.html', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])

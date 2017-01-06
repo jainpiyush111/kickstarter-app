@@ -55,22 +55,26 @@
             <li {% if request.endpoint == 'home' %} class="active" {% endif %}><a href="{{ url_for('home') }}">Home</a></li>
             <li {% if request.endpoint == 'about' %} class="active" {% endif %}><a href="{{ url_for('about') }}">About</a></li>
             {% if session['name'] %}
-            <li {% if request.endpoint == 'create' %} class="active" {% endif %}><a href="{{ url_for('create') }}">Create Project</a></li>
-            
-
-            <li> <a>
-            Hi {{ session['name'] }}!
-            {% endif %}</a></li>
-
+            <li {% if request.endpoint == 'create' %} class="active" {% endif %}><a href="{{ url_for('create') }}">Create Project {% endif %}</a></li>
 
           </ul>
           <ul class="nav navbar-nav pull-right">{% if session['name'] %}
+          <li><a>
+            <form method="post" class="form">
+            {{ form.search(class_ = 'form-control first-input', placeholder = form.search.label.text, required = true, autofocus = true) }} 
+            <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            </a></li>
+          <li> <a>
+            Hi {{ session['name'] }}!
+            </a></li>
+
           <li><a href="{{ url_for('logout') }}">Logout</a></li> 
              
-{% else %} 
+          {% else %} 
              <li><a href="{{ url_for('register') }}">Signup</a></li>  
             <li><a href="{{ url_for('login') }}">Login</a></li>
-{% endif %}
+          {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>

@@ -38,6 +38,18 @@ class CreateProject(Form):
     time_end = DateField(
         'Funding End Date', validators=[DataRequired(), Length(min=6, max=500)]
     )
+
+class Search(Form):
+    search = TextField(
+        'Search', validators=[DataRequired(), Length(min=6, max=25)]
+    )
+
+
+class NewPledge(Form):
+    
+    amount = TextField(
+        'Pledge Amount', validators=[DataRequired(), Length(min=6, max=40)]
+    )
     
 
 class LoginForm(Form):

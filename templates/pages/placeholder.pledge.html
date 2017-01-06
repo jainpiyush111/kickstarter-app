@@ -1,0 +1,11 @@
+{% extends 'layouts/main.html' %}
+{% block content %}
+  <form method="post" class="form">
+    <h3 class="form-heading">Pledge for the project </h3>
+    <br>
+    <h5>Project Name <h5> <br>
+    <h5>Pledge Amount ($)<h5>{{ form.amount(class_ = 'form-control ', placeholder = form.amount.label.text, required = true) }} <br>
+    
+    <input type="submit" value="Pay" class="btn btn-primary btn-lg btn-block">
+ </form>
+{% endblock %}

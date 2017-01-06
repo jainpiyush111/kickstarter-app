@@ -6,7 +6,9 @@ import datetime
 
 
 # engine = create_engine('sqlite:///database.db', echo=True)
-engine = create_engine('postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh', echo=True)
+# engine = create_engine('postgres://nwpzolgh:wZbR4Q7D1YpI0PI0velMGKyFkKxPEuHi@elmer.db.elephantsql.com:5432/nwpzolgh', echo=True)
+engine = create_engine('postgresql://fulfil:@localhost:5432/kickstarterapp', echo=True)
+
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
@@ -25,6 +27,12 @@ class Pledges(Base):
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     amount = Column(Integer)
     time_created = Column(DateTime, default=datetime.datetime.utcnow)
+
+    def __init__(self, project_id, user_id, amount):
+        self.project_id = project_id
+        self.user_id = user_id
+        self.amount = amount
+
 
 
 class User(Base):
